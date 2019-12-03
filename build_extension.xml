@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_dist" name="Create Runnable Jar for Project com.castsoftware.uc.restapi.reports with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    
+    <!-- package version, should be the same as attribute VERSION located in java class RestAPIReports -->
+	<property file = "version.properties"/>
+	
+	<!-- Output directory where the package will generate the binary package -->  
+	<property name="extension.name" value="com.castsoftware.uc.php.doctrine"/>
+	
+	
+	<!-- Output directory where the package will generate the binary package -->  
+	<property name="project.dir" value="C:/Users/mmr/workspace/com.castsoftware.uc.php.doctrine"/>
+		
+	<target name="create_dist">
+		<delete dir="${project.dir}/dist" />
+		
+		<copy todir="${project.dir}/dist">
+        	    <fileset dir="${project.dir}" >
+					<!-- include name="plugin.nuspec" />
+        	    	<include name="LICENSE" />
+        	    	<include name="README.md" / -->
+        	        <exclude name="**/*dist"/>        	    	
+        	    	
+        	    </fileset>	
+		</copy>	
+		
+		<!--Nugget command to package the extension -->
+		<exec executable="cmd">
+		    <arg value="/c"/>
+		    <arg value="nugget_package.bat"/>
+			<arg value="${version}"/>
+		</exec>
+		<delete dir="${project.dir}/dist_nugget" />
+		<move file="${project.dir}/${extension.name}.${version}.nupkg" todir="${project.dir}/dist_nugget" />
+
+    </target>
+</project>

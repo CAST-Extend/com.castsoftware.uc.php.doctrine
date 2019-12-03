@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>com.castsoftware.uc.php.doctrine</id>
+    <version>1.0.0</version>
+    <title>PHP Doctrine custom extension</title>
+    <authors>User Community</authors>
+    <owners>CAST</owners>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/wiki</projectUrl>
+    <iconUrl>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/blob/master/doctrine2.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This extension provides a first level of coverage for the PHP Doctrine ORM framework.</description>
+    <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/wiki</releaseNotes>
+    <tags>CASTUserCommunity PHP</tags>
+    <dependencies>
+      <dependency id="CAIP" version="8.3.3" />
+    </dependencies>
+  </metadata>
+</package>
