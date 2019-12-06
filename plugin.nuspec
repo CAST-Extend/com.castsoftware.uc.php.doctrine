@@ -2,18 +2,27 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.uc.php.doctrine</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>PHP Doctrine custom extension</title>
     <authors>User Community</authors>
     <owners>CAST</owners>
     <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/wiki</projectUrl>
-    <iconUrl>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/blob/master/doctrine2.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/CAST-Extend/com.castsoftware.uc.php.doctrine/master/doctrine256x256.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This extension provides a first level of coverage for the PHP Doctrine ORM framework.</description>
-    <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/wiki</releaseNotes>
+    <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.uc.php.doctrine/wiki#version-101</releaseNotes>
     <tags>CASTUserCommunity PHP</tags>
     <dependencies>
       <dependency id="CAIP" version="8.3.3" />
+      <dependency id="com.castsoftware.php" version="3.0.3-funcrel" />
     </dependencies>
   </metadata>
+  <files>
+        <file src="*\**" exclude="__pycache__\**\*.*"/>
+        <file src="*\**" exclude="tests\**\*.*"/>
+        <file src="*\**" exclude="dist\**\*.*"/>
+		<file src="*\**" exclude="dist_nugget\**\*.*"/>
+  </files>
+  
+  
 </package>

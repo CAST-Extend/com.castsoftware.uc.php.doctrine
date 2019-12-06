@@ -11,7 +11,7 @@
 	
 	
 	<!-- Output directory where the package will generate the binary package -->  
-	<property name="project.dir" value="C:/Users/mmr/workspace/com.castsoftware.uc.php.doctrine"/>
+	<property name="project.dir" value="C:/Users/mmr/workspace/com.castsoftware.uc.php.doctrine_local"/>
 		
 	<target name="create_dist">
 		<delete dir="${project.dir}/dist" />
@@ -22,18 +22,20 @@
         	    	<include name="LICENSE" />
         	    	<include name="README.md" / -->
         	        <exclude name="**/*dist"/>        	    	
+        	    	<exclude name="**/*tests"/>  
+					<exclude name="**/*__pycache__"/>
         	    	
         	    </fileset>	
 		</copy>	
 		
-		<!--Nugget command to package the extension -->
+		<!--Nuget command to package the extension -->
 		<exec executable="cmd">
 		    <arg value="/c"/>
-		    <arg value="nugget_package.bat"/>
+		    <arg value="nuget_package.bat"/>
 			<arg value="${version}"/>
 		</exec>
-		<delete dir="${project.dir}/dist_nugget" />
-		<move file="${project.dir}/${extension.name}.${version}.nupkg" todir="${project.dir}/dist_nugget" />
+		<delete dir="${project.dir}/dist_nuget" />
+		<move file="${project.dir}/${extension.name}.${version}.nupkg" todir="${project.dir}/dist_nuget" />
 
     </target>
 </project>

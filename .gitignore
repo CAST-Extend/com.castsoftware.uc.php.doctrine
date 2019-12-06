@@ -1,3 +1,4 @@
 dist
 dist_nugget
 __pycache__
+tests

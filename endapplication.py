@@ -1,5 +1,5 @@
-from cast.application import ApplicationLevelExtension, ReferenceFinder, create_link
 import cast_upgrade_1_6_4 # @UnusedImport
+from cast.application import ApplicationLevelExtension, ReferenceFinder, create_link
 import logging 
 import sys
 import re
@@ -22,7 +22,7 @@ class PHPDoctrineExtensionApplication(ApplicationLevelExtension):
         self.nbSymfonyService = 0
         
         self.nbLinksDoctrineTableAnnotation = 0 
-        self.nbLinksMethodToClassWithNamespace = 0         
+        self.nbLinksMethodToClass = 0         
         self.nbLinksDoctrineRepositoryClass = 0
         self.nbLinksSymfonyServiceToServiceClass = 0
         self.nbLinksPHPToSymfonyService = 0
@@ -47,7 +47,7 @@ class PHPDoctrineExtensionApplication(ApplicationLevelExtension):
         
         logging.info("Doctrine - Number of links to Tables from annotations : " +  str(self.nbLinksDoctrineTableAnnotation))
         logging.info("Doctrine - Number of links to repository class from entity annotation : " + str(self.nbLinksDoctrineRepositoryClass))
-        logging.info("Number of links created from methods to class with namespace : " +  str(self.nbLinksMethodToClassWithNamespace))
+        logging.info("Number of links created from methods to class : " +  str(self.nbLinksMethodToClass))
         logging.info("Number of links created from Symfony services to Symfony service class : " + str(self.nbLinksSymfonyServiceToServiceClass))
         logging.info("Number of links created from php to Symfony service : " + str(self.nbLinksPHPToSymfonyService))
         logging.info("###################################################################################")
@@ -200,14 +200,24 @@ class PHPDoctrineExtensionApplication(ApplicationLevelExtension):
         rexRepositoryClass = '@ORM\\\\Entity\(repositoryClass=[\'"][A-Za-z0-9\-_\\\\]+[\\\\]([A-Za-z0-9\-_]+)[\'"]'
         rfCall.add_pattern('DoctrineRepositoryClass', before='', element = rexRepositoryClass, after='') 
         
-        # Class from methods to Classes having a namespace
-        # examples : 
+        # Class from methods to Classes
+        # looking for class name after a namespace 
+        # examples :
         #    -> LeftJoin("NatachaBundle:AffaireC",'ac','WITH','a.id=ac.ic'
         #    . "JOIN AppBundle:AuditLog audit "
         #    -> getRepository("AppTdexBundle:TCasier");
         #    $commune = $em-> getRepository('AppBundle:Commune')->getAutocomplete();
-        rexClassWithNamespace = '[\'"].*[A-Za-z0-9\-_]+[:]([A-Za-z0-9\-_]+)'
-        rfCall.add_pattern('MethodToClassWithNamespaceLink', before='', element = rexClassWithNamespace, after='')
+        #    ->from('NatachaBundle:AffaireC'
+        rexClass = '[\'"].*[A-Za-z0-9\-_]+[:]([A-Za-z0-9\-_]+)'
+
+        # examples :
+        #    ->join('u.AffaireR', 'ar', 'WITH', 'a.id = ar.id')
+        rexClass =  rexClass + '|' + '\([\'"][A-Za-z0-9]+[.]([A-Za-z0-9_-]+)'
+
+        # examples :
+        #    ->from('AffaireR'
+        rexClass = rexClass + '|' +  '([fF][rR][oO][mM]|[jJ][oO][iI][nN])\([\'"]([A-Za-z0-9]+)[\'"]'
+        rfCall.add_pattern('MethodToClassLink', before='', element = rexClass, after='')
 
         # PHP to symfony services 
         # examples : 
@@ -266,20 +276,22 @@ class PHPDoctrineExtensionApplication(ApplicationLevelExtension):
                             logging.warning("\t\t  Couldn't find phpClass in local schema (DoctrineRepositoryClass) : " +repositoryClassName)
 
                 # Pattern 3 - Looking for method with namespace to class link to create
-                if  reference.pattern_name=='MethodToClassWithNamespaceLink':
-                    logging.debug("\t\t  MethodToClassWithNamespaceLink>" +reference.value)
-                    m0 = re.search(rexClassWithNamespace, reference.value)
+                if  reference.pattern_name=='MethodToClassLink':
+                    logging.debug("\t\t  MethodToClassLink>" +reference.value)
+                    m0 = re.search(rexClass, reference.value)
                     if m0:
                         classname = m0.group(1)
+                        if classname == None: classname = m0.group(2)
+                        if classname == None: classname = m0.group(4)
                         logging.debug("\t\t  classname>" +classname)    
                         
                         try:
                             classObject = self.phpClassesByName[classname]
                             parentObject = most_specific_object
                             create_link("useLink", parentObject, classObject, reference.bookmark)
-                            self.nbLinksMethodToClassWithNamespace += 1
+                            self.nbLinksMethodToClass += 1
                         except KeyError:
-                            logging.warning("\t\t  Couldn't find phpClass in local schema (MethodToClassWithNamespaceLink) : " +classname)
+                            logging.warning("\t\t  Couldn't find phpClass in local schema (MethodToClassLink) : " +classname)
 
                 if  reference.pattern_name=='PhpToSymfonyService':
                     logging.debug("\t\t  PhpToSymfonyService>" +reference.value)

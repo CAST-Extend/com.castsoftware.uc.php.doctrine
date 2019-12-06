@@ -1,5 +1,5 @@
 import cast_upgrade_1_6_4 # @UnusedImport
-from cast.analysers import log, CustomObject, create_link, external_link, Bookmark
+from cast.analysers import log#, CustomObject, create_link, external_link, Bookmark
 import cast.analysers.ua
 
 """
