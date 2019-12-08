@@ -17,12 +17,5 @@
       <dependency id="com.castsoftware.php" version="3.0.3-funcrel" />
     </dependencies>
   </metadata>
-  <files>
-        <file src="*\**" exclude="__pycache__\**\*.*"/>
-        <file src="*\**" exclude="tests\**\*.*"/>
-        <file src="*\**" exclude="dist\**\*.*"/>
-		<file src="*\**" exclude="dist_nugget\**\*.*"/>
-  </files>
-  
   
 </package>

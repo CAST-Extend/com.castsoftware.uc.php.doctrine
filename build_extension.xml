@@ -15,16 +15,11 @@
 		
 	<target name="create_dist">
 		<delete dir="${project.dir}/dist" />
-		
 		<copy todir="${project.dir}/dist">
         	    <fileset dir="${project.dir}" >
-					<!-- include name="plugin.nuspec" />
-        	    	<include name="LICENSE" />
-        	    	<include name="README.md" / -->
-        	        <exclude name="**/*dist"/>        	    	
-        	    	<exclude name="**/*tests"/>  
-					<exclude name="**/*__pycache__"/>
-        	    	
+        	        <exclude name="**/dist/**" />        	    	
+        	    	<exclude name="**/tests/**" />  
+            	   	<exclude name="**/__pycache__/**" />        	    	
         	    </fileset>	
 		</copy>	
 		

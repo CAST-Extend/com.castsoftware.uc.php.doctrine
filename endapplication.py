@@ -216,6 +216,9 @@ class PHPDoctrineExtensionApplication(ApplicationLevelExtension):
 
         # examples :
         #    ->from('AffaireR'
+        #    ->join('AffaireR'
+        #    ->leftJoin('AffaireR'
+        #    ->innerJoin('AffaireR'
         rexClass = rexClass + '|' +  '([fF][rR][oO][mM]|[jJ][oO][iI][nN])\([\'"]([A-Za-z0-9]+)[\'"]'
         rfCall.add_pattern('MethodToClassLink', before='', element = rexClass, after='')
 
